@@ -37,6 +37,13 @@ async function run() {
       const result = await toolsCollection.findOne(query);
       res.send(result);
     });
+    // Post tool
+    app.post("/tool", async (req, res) => {
+      const newTool = req.body;
+      console.log("Adding new inventory", newTool);
+      const result = await toolsCollection.insertOne(newTool);
+      res.send(result);
+    });
   } finally {
   }
 }
