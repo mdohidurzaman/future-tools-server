@@ -22,6 +22,7 @@ async function run() {
   try {
     await client.connect();
     const toolsCollection = client.db("futureTools").collection("handTools");
+    const reviewCollection = client.db("futureTools").collection("review");
 
     //Get tools
     app.get("/tools", async (req, res) => {
@@ -40,8 +41,15 @@ async function run() {
     // Post tool
     app.post("/tool", async (req, res) => {
       const newTool = req.body;
-      console.log("Adding new inventory", newTool);
+      console.log("Adding new product", newTool);
       const result = await toolsCollection.insertOne(newTool);
+      res.send(result);
+    });
+    // Post review
+    app.post("/review", async (req, res) => {
+      const newReview = req.body;
+      console.log("Adding new review", newReview);
+      const result = await reviewCollection.insertOne(newReview);
       res.send(result);
     });
   } finally {
