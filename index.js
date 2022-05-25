@@ -30,6 +30,13 @@ async function run() {
       const products = await cursor.toArray();
       res.send(products);
     });
+    //Get tool
+    app.get("/tool/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await toolsCollection.findOne(query);
+      res.send(result);
+    });
   } finally {
   }
 }
