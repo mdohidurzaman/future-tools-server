@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 require("dotenv").config();
 const { MongoClient, ServerApiVersion } = require("mongodb");
+const ObjectId = require("mongodb").ObjectId;
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -16,6 +17,23 @@ const client = new MongoClient(uri, {
   useUnifiedTopology: true,
   serverApi: ServerApiVersion.v1,
 });
+
+async function run() {
+  try {
+    await client.connect();
+    const toolsCollection = client.db("futureTools").collection("handTools");
+
+    //Get tools
+    app.get("/tools", async (req, res) => {
+      const query = {};
+      const cursor = toolsCollection.find(query);
+      const products = await cursor.toArray();
+      res.send(products);
+    });
+  } finally {
+  }
+}
+run().catch(console.dir);
 
 app.get("/", (req, res) => {
   res.send("Mongodb is Connected!!");
