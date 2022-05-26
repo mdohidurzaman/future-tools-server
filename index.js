@@ -46,6 +46,26 @@ async function run() {
       res.send(result);
     });
 
+    //Update tool
+    app.patch("/tool/:id", async (req, res) => {
+      const id = req.params.id;
+      const updatedTool = req.body;
+      const query = { _id: ObjectId(id) };
+      const options = { upsert: true };
+      const updatedItem = {
+        $set: {
+          minOrderQuantity: updatedTool.minOrderQuantity,
+          availableQuantity: updatedTool.availableQuantity,
+        },
+      };
+      const result = await toolsCollection.updateOne(
+        query,
+        updatedItem,
+        options
+      );
+      res.send(result);
+    });
+
     //Delete tool
     app.delete("/tool/:id", async (req, res) => {
       const id = req.params.id;
