@@ -67,6 +67,14 @@ async function run() {
       const reviews = await cursor.toArray();
       res.send(reviews);
     });
+
+    //Get a login user
+    app.get("/loginUser", async (req, res) => {
+      const query = { emil: email };
+      const cursor = toolsCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+    });
   } finally {
   }
 }
